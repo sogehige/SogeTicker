@@ -13,12 +13,7 @@ var save = function (file, string) {
   })
 }
 
-socket.once('connect', function () {
-  setInterval(function () {
-    socket.emit('getCurrentSong')
-  }, 5000)
-})
-
-socket.on('currentSong', function (song) {
+socket.on('videoID', function (song) {
   save('currentsong.txt', typeof song.title === 'string' ? song.title : config.empty.currentSong)
+  save('currentsong_lowercase.txt', typeof song.title === 'string' ? song.title.toLowerCase() : config.empty.currentSong)
 })
