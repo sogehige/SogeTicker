@@ -17,5 +17,5 @@ socket.on('videoID', function (song) {
   save('currentsong.txt', typeof song.title === 'string' ? song.title : config.empty.currentSong)
   save('currentsong_lowercase.txt', typeof song.title === 'string' ? song.title.toLowerCase() : config.empty.currentSong)
   save('currentsong_w_separator.txt', typeof song.title === 'string' ? song.title + config.separator.default : config.empty.currentSong + config.separator.default)
-  save('currentsong_w_separator_lowercase.txt', typeof song.title === 'string' ? song.title + config.separator.default : config.empty.currentSong + config.separator.default)
+  save('currentsong_w_separator_lowercase.txt', typeof song.title === 'string' ? song.title.toLowerCase() + config.separator.default : config.empty.currentSong + config.separator.default)
 })
