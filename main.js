@@ -12,9 +12,8 @@ const path = require('path')
 var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'))
 
 console.log('Connecting to a sogeBot on http://' + config.bot.url + ':' + config.bot.port)
-var socket = ioClient.connect('http://' + config.bot.url + ':' + config.bot.port)
+var socket = ioClient.connect('http://' + config.bot.url + ':' + config.bot.port, {query: 'token=' + config.bot.token.trim()})
 
-socket.emit('authenticate', config.bot.token.trim())
 socket.on('authenticated', function () {
   console.log('Authenticated with a sogeBot on http://' + config.bot.url + ':' + config.bot.port)
 
@@ -43,7 +42,7 @@ socket.on('authenticated', function () {
   setInterval(function () {
     glob(config.replay.folder + '/' + config.replay.prefix + '*', function (er, files) {
       _.each(files, function (file) {
-        if(((new Date().getTime() - new Date(fs.statSync(file).birthtime).getTime()) / 1000) <= 60) { // file is not older than 60s
+        if (((new Date().getTime() - new Date(fs.statSync(file).birthtime).getTime()) / 1000) <= 60) { // file is not older than 60s
           if (!_.includes(replay, file)) { // it was not send
             replay.push(file)
             console.log('Sending a replay video to a bot - http://localhost:%s/replays/%s', port, path.basename(file).replace(/ /g, '%20'))
