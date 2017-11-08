@@ -8,17 +8,21 @@ const glob = require('glob')
 const express = require('express')
 const http = require('http')
 const path = require('path')
+const cors = require('cors')
 
 var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'))
 
 console.log('Connecting to a sogeBot on http://' + config.bot.url + ':' + config.bot.port)
 var socket = ioClient.connect('http://' + config.bot.url + ':' + config.bot.port, {query: 'token=' + config.bot.token.trim()})
 
-socket.on('authenticated', function () {
+socket.once('authenticated', function () {
   console.log('Authenticated with a sogeBot on http://' + config.bot.url + ':' + config.bot.port)
 })
 
+
 var app = express()
+app.use(cors())
+
 var server = http.createServer(app)
 var port = process.env.PORT || config.serve.port
 
